@@ -1,4 +1,5 @@
 local RunService = game:GetService("RunService")
+local Camera = workspace.CurrentCamera
 local EspLibrary = {}
 
 function EspLibrary.TextEsp(name, color, obj, center)
