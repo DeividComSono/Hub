@@ -214,9 +214,9 @@ function EspLibrary.PlayerBoxEsp(color, who, filled, teamcheck)
 
             local rootpart = who.Character.HumanoidRootPart
             local head = who.Character.Head
-            local rootpos, rootvis = Camera:WorldToViewportPoint(Camera, rootpart.Position)
-            local headpos = Camera:WorldToViewportPoint(Camera, head.Position + headoff)
-            local legpos = Camera:WorldToViewportPoint(Camera, rootpart.Position - legoff)
+            local rootpos, rootvis = Camera:WorldToViewportPoint( rootpart.Position)
+            local headpos = Camera:WorldToViewportPoint(head.Position + headoff)
+            local legpos = Camera:WorldToViewportPoint(rootpart.Position - legoff)
 
             if onscreen then
                 BoxOutlineEsp.Size = Vector2.new(1000 / rootpos.Z, headpos.Y - legpos.Y)
