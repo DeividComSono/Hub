@@ -203,7 +203,7 @@ function EspLibrary.PlayerBoxEsp(color, who, filled, teamcheck)
     local BoxEsp = Drawing.new("Square")
     BoxEsp.Visible = false
     BoxEsp.Color = color
-    BoxEsp.Thickness = 3
+    BoxEsp.Thickness = 1
     BoxEsp.Transparency = 1
     BoxOutlineEsp.Filled = filled
 
