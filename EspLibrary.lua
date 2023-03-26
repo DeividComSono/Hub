@@ -189,4 +189,75 @@ function EspLibrary.PlayerLineEsp(color, who, teamcheck)
     return ret
 end
 
+function EspLibrary.PlayerBoxEsp(color, who, filled, teamcheck)
+    local headoff = Vector3.new(0, 0.5, 0)
+    local legoff = Vector3.new(0, 3, 0)
+
+    local BoxOutlineEsp = Drawing.new("Square")
+    BoxOutlineEsp.Visible = false
+    BoxOutlineEsp.Color = Color3.new(0, 0, 0)
+    BoxOutlineEsp.Thickness = 3
+    BoxOutlineEsp.Transparency = 1
+    BoxOutlineEsp.Filled = false
+
+    local BoxEsp = Drawing.new("Square")
+    BoxEsp.Visible = false
+    BoxEsp.Color = color
+    BoxEsp.Thickness = 3
+    BoxEsp.Transparency = 1
+    BoxOutlineEsp.Filled = filled
+
+    local c1
+    c1 = RunService.RenderStepped:Connect(function()
+        if who.Character ~= nil and who.Character:FindFirstChild("Humanoid") ~= nil and who.Character:FindFirstChild("HumanoidRootPart") ~= nil and who ~= game.Players.LocalPlayer and who.Character.Humanoid.Health > 0 then
+            local pos, onscreen = Camera:WorldToViewportPoint(who.Character.HumanoidRootPart.Position)
+
+            local rootpart = who.Character.HumanoidRootPart
+            local head = who.Character.Head
+            local rootpos, rootvis = Camera:WorldToViewportPoint(Camera, rootpart.Position)
+            local headpos = Camera:WorldToViewportPoint(Camera, head.Position + headoff)
+            local legpos = Camera:WorldToViewportPoint(Camera, rootpart.Position - legoff)
+
+            if onscreen then
+                BoxOutlineEsp.Size = Vector2.new(1000 / rootpos.Z, headpos.Y - legpos.Y)
+                BoxOutlineEsp.Position = Vector2.new(rootpos.X - BoxOutlineEsp.Size.X / 2, rootpos.Y - BoxOutlineEsp.Size.Y / 2)
+                BoxOutlineEsp.Visible = true
+
+                BoxEsp.Size = Vector2.new(1000 / rootpos.Z, headpos.Y - legpos.Y)
+                BoxEsp.Position = Vector2.new(rootpos.X - BoxEsp.Size.X / 2, rootpos.Y - BoxEsp.Size.Y / 2)
+                BoxEsp.Visible = true
+
+                if teamcheck and who.TeamColor == game.Players.LocalPlayer.TeamColor then
+                    BoxOutlineEsp.Visible = false
+                    BoxEsp.Visible = false
+                else
+                    BoxOutlineEsp.Visible = true
+                    BoxEsp.Visible = true
+                end
+            else
+                BoxOutlineEsp.Visible = false
+                BoxEsp.Visible = false
+            end
+        else
+            BoxOutlineEsp.Visible = false
+            BoxEsp.Visible = false
+        end
+    end)
+
+    local ret = {}
+
+    ret.delete = function()
+        if c1 then
+            c1:Disconnect()
+            c1 = nil
+            BoxOutlineEsp.Visible = false
+            BoxEsp.Visible = false
+            BoxOutlineEsp:Remove()
+            BoxEsp:Remove()
+        end
+    end
+
+    return ret
+end
+
 return EspLibrary
