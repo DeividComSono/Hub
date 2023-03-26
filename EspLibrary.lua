@@ -1,5 +1,6 @@
 local RunService = game:GetService("RunService")
 local Camera = workspace.CurrentCamera
+local worldToViewportPoint = Camera.worldToViewportPoint
 local EspLibrary = {}
 
 function EspLibrary.TextEsp(name, color, obj, center)
@@ -97,6 +98,7 @@ function EspLibrary.PlayerTextEsp(color, who, center, teamcheck)
     TextEsp.Outline = true
     TextEsp.Color = color
     TextEsp.Size = 16
+    TextEsp.ZIndex = 2
 
     local c1
 
@@ -149,6 +151,7 @@ function EspLibrary.PlayerLineEsp(color, who, teamcheck)
     LineEsp.Color = color
     LineEsp.Thickness = 1
     LineEsp.Transparency = 1
+    LineEsp.ZIndex = 3
 
     local c1
     c1 = RunService.RenderStepped:Connect(function()
@@ -199,13 +202,15 @@ function EspLibrary.PlayerBoxEsp(color, who, filled, teamcheck)
     BoxOutlineEsp.Thickness = 3
     BoxOutlineEsp.Transparency = 1
     BoxOutlineEsp.Filled = false
+    BoxOutlineEsp.ZIndex = 0
 
     local BoxEsp = Drawing.new("Square")
     BoxEsp.Visible = false
     BoxEsp.Color = color
     BoxEsp.Thickness = 1
     BoxEsp.Transparency = 1
-    BoxOutlineEsp.Filled = filled
+    BoxEsp.Filled = filled
+    BoxEsp.ZIndex = 1
 
     local c1
     c1 = RunService.RenderStepped:Connect(function()
@@ -214,9 +219,9 @@ function EspLibrary.PlayerBoxEsp(color, who, filled, teamcheck)
 
             local rootpart = who.Character.HumanoidRootPart
             local head = who.Character.Head
-            local rootpos, rootvis = Camera:WorldToViewportPoint( rootpart.Position)
-            local headpos = Camera:WorldToViewportPoint(head.Position + headoff)
-            local legpos = Camera:WorldToViewportPoint(rootpart.Position - legoff)
+            local rootpos, rootvis = worldToViewportPoint(Camera, rootpart.Position)
+            local headpos = worldToViewportPoint(Camera, head.Position + headoff)
+            local legpos = worldToViewportPoint(Camera, rootpart.Position - legoff)
 
             if onscreen then
                 BoxOutlineEsp.Size = Vector2.new(1000 / rootpos.Z, headpos.Y - legpos.Y)
