@@ -89,7 +89,7 @@ function EspLibrary.LineEsp(color, obj)
 end
 
 
-function EspLibrary.PlayerTextEsp(color, who, center)
+function EspLibrary.PlayerTextEsp(color, who, center, teamcheck)
     local TextEsp = Drawing.new("Text")
     TextEsp.Visible = false
     TextEsp.Center = center
