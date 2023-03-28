@@ -10,6 +10,7 @@ function EspLibrary.TextEsp(name, color, obj, center)
     TextEsp.Outline = true
     TextEsp.Color = color
     TextEsp.Size = 16
+    TextEsp.ZIndex = 2
 
     local c1
     c1 = RunService.RenderStepped:Connect(function()
@@ -56,6 +57,7 @@ function EspLibrary.LineEsp(color, obj)
     LineEsp.Color = color
     LineEsp.Thickness = 1
     LineEsp.Transparency = 1
+    LineEsp.ZIndex = 3
 
     local c1
     c1 = RunService.RenderStepped:Connect(function()
